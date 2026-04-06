@@ -341,7 +341,7 @@ let
     # store path content is then located at the image /.
     copyToRoot ? null,
     # An image that is used as base image of this image.
-    fromImage ? "",
+    fromImage ? null,
     # Image architecture
     arch ? pkgs.go.GOARCH,
     # A list of file permisssions which are set when the tar layer is
@@ -406,7 +406,7 @@ let
         layers = layers;
       };
 
-      fromImageFlag = l.optionalString (fromImage != "") "--from-image ${fromImage}";
+      fromImageFlag = l.optionalString (fromImage != null) "--from-image ${fromImage}";
       archFlag = "--arch ${arch}";
       createdFlag = "--created ${created}";
       layerPaths = l.concatMapStringsSep " " (l: l + "/layers.json") (allLayers ++ [customizationLayer]);
